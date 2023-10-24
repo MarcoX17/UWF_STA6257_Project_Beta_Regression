@@ -1,6 +1,6 @@
 ---
-title: "Report Sample for Data Science Capstone Project Final TEST"
-author: "Student name"
+title: "Beta Regression"
+author: "Marcus Chery"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -19,69 +19,384 @@ editor:
 
 ## Introduction
 
-This is an introduction to Kernel regression, which is a non-parametric
-estimator that estimates the conditional expectation of two variables
-which is random. The goal of a kernel regression is to discover the
-non-linear relationship between two random variables. To discover the
-non-linear relationship, kernel estimator or kernel smoothing is the
-main method to estimate the curve for non-parametric statistics. In
-kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+Beta regression is a statistical methodology tailored to address the
+challenges associated with modeling continuous bounded response
+variables, often constrained within the open interval (0, 1). Beta
+regression, as introduced by (Ferrari and Cribari-Neto 2004) in their
+seminal paper, offers an elegant framework for modeling proportions and
+percentages with an emphasis on interpretability of model parameters.
+This foundational work serves as a cornerstone for subsequent research
+and applications.
+
+This report delves into the application of beta regression within the
+context of heart disease data analysis. Our objective is to provide a
+thorough understanding of beta regression, its practical implementation
+using the "betareg" package in R, and its real-world relevance through
+heart disease data. Throughout the report, we offer practical examples,
+code snippets, and graphs to facilitate hands-on learning. Additionally,
+we address the limitations of beta regression and discuss potential
+future research directions. The goal of this report is to equip readers
+with the knowledge and skills needed to effectively utilize beta
+regression in heart disease analysis, while also fostering awareness of
+its boundaries and avenues for further exploration.
+
+In beta regression, the dependent variable is assumed to follow a beta
+distribution, and the goal is to model its relationship with one or more
+independent variables. Beta regression is suitable for data where the
+response variable lies within a closed interval, such as proportions,
+percentages, or rates. It considers both the mean and the dispersion of
+the data (Ferrari and Cribari-Neto 2004).
+
+The beta distribution is characterized by two parameters: alpha (α) and
+beta (β). These parameters can be modeled as a function of predictor
+variables, allowing for the analysis of how independent variables
+influence the shape of the distribution.
+
+Like logistic regression, beta regression often uses a link function to
+relate the mean of the beta distribution to the linear combination of
+predictor variables. Common link functions include logit, probit, and
+log-log. The coefficients obtained from beta regression provide insights
+into how changes in the predictor variables affect the distribution of
+the response variable, including its mean and variability.
+
+Complementing this, the "betareg" package for R, as presented by
+(Cribari-Neto and Zeileis 2010), provides various methods and procedures
+for implementing beta regression models in R. Building on the foundation
+laid by (Ferrari and Cribari-Neto 2004), (Cribari-Neto and Zeileis 2010)
+introduce the "betareg" package for R, offering a practical
+implementation of beta regression models. This paper is instrumental in
+bringing beta regression into the realm of data analysis and showcases
+the package's utility in addressing challenges related to continuous
+bounded response variables.
+
+(Guolo and Varin 2014) seek to expand on beta regression. The authors
+incorporate a Gaussian copula to model serial dependence in the data,
+making it applicable to time series analysis. The study's practical
+application involves analyzing influenza-like-illness incidence data
+from the Google Flu Trends project. Their methodology provides a
+framework for analyzing bounded time series data and offers insights
+into inference, prediction, and control in this context.
+
+Moreover, the paper authored by (Patrícia L. Espinheira and Cribari-Neto
+2008) unveils innovative residuals, based on Fisher's scoring iterative
+algorithm, enhancing model assessments and bias correction---a pivotal
+contribution to the methodology's practical applicability. They address
+a common challenge in statistical analysis by offering a practical
+solution for improved model assessments and bias correction. The study
+presents new residuals based on Fisher's scoring iterative algorithm,
+demonstrating their superiority in various scenarios, particularly in
+small sample sizes.
+
+Various papers throughout the years have sought to improve the basic
+beta regression techniques of (Ferrari and Cribari-Neto 2004). (Simas,
+Barreto-Souza, and Rocha 2010) delve into bias correction methods for
+beta regression models in the quest for improved estimators in beta
+regression. They address biases in parameter estimation, a critical
+concern. Recognizing the potential for bias in parameter estimation,
+especially in small sample sizes, the paper provides closed-form
+expressions for second-order biases in maximum likelihood estimators.
+The authors present various methods for bias correction, including
+analytical approaches and bootstrap bias adjustment, enhancing the
+accuracy of model assessments and mitigating erroneous conclusions.
+
+Likewise, (Schmid 2013) introduced one such enhancement known as the
+"boosted beta regression" as a novel extension of classical beta
+regression. (Schmid 2013) address complex modeling scenarios with many
+predictor variables, multicollinearity, nonlinear relationships, and
+overdispersion dependencies. They utilize the gamboostLSS algorithm to
+efficiently estimate beta regression models, making it possible to fit
+models while preserving the structure of beta regression. The method's
+effectiveness is demonstrated through ecological data applications,
+highlighting its advantages in terms of model fit and prediction
+accuracy.
+
+(Abonazel et al. 2022) took a different approach. They focused on
+improving the estimation of beta regression models when
+multicollinearity was present among regressors. They introduced the
+Dawoud--Kibria estimator as an alternative to the conventional maximum
+likelihood estimator (BML) when dealing with such situations. The
+authors derived the properties of this new estimator and assess its
+performance through theoretical comparisons, Monte Carlo simulations,
+and a real-life application.
+
+Finally, it is important to note the challenges of beta regression.
+(Douma and Weedon 2019) addresses one challenge of analyzing
+proportional data in ecology and evolution. Proportional data, common in
+these fields, pose unique statistical challenges due to their bounded
+nature and varying variances. The paper introduces beta and Dirichlet
+regression techniques as effective tools for analyzing such data. These
+methods allow for analysis at the original scale, reducing bias and
+simplifying interpretation. The article provides practical guidance on
+model fitting and reporting.
+
+(Couri et al. 2022) focuses on the computational challenges of
+estimating parameters in beta regression models. The authors evaluate
+ten algorithms for parameter estimation and find that four, including
+simulated annealing, perform well. The paper also examines the optim
+function in R and suggests its use in challenging cases. Simulated
+annealing is recommended, particularly when the optim function fails.
+Overall, the research offers insights into improving parameter
+estimation for beta regression models in various applications.
+
+Furthermore, one such limitation of classical beta regression is its
+handling of zero or one inflated data. (Ospina and Ferrari 2012)
+introduce a versatile class of regression models, zero-or-one inflated
+beta regression, specifically tailored to address datasets containing
+continuous proportions with zeros or ones. The paper offers a flexible
+solution for modeling mixed continuous-discrete distributions, essential
+in real-world scenarios such as income contributions or work-related
+activities. By combining the beta distribution with a degenerate
+distribution at zero or one, the authors provide a robust framework for
+effective modeling, parameter estimation, diagnostics, and model
+selection.
 
 ## Methods
 
-The common non-parametric regression model is
-$Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of
-the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown
-and $\varepsilon_i$ some errors. With the help of this definition, we
-can create the estimation for local averaging i.e. $m(x)$ can be
-estimated with the product of $Y_i$ average and $X_i$ is near to $x$. In
-other words, this means that we are discovering the line through the
-data points with the help of surrounding data points. The estimation
-formula is printed below [@R-base]:
+Our objective is to investigate the relationship and effect of the given
+variables on the response variable which in this case is the cholesterol
+count proportional. Being that the chosen response is proportional in
+nature, linear regression is not appropriate. The suitable approach is
+the implementation of beta regression. The reason as to why linear
+regression is not appropriate is due predicted values falling outside
+the bound of (0,1) where as all the proportional values are within the
+bounds of 0 and 1.Our objective is to implement beta regression to
+predict the proportion values based on grouped cholesterol values.In
+other words,using beta regression to predict the proportion of a
+specific cholesterol value given that chosen cholesterol value.Before
+implement the beta regression, it was necessary to create the
+proportional variable. This was done by counting similar cholesterol
+values and grouping them together then dividing the grouped values by
+the total number of examples in the data set.
+
+After the creation the proportional response -
+Cholesterol_count_proportional,the beta regression algorithm is
+implemented.Before delving into the implementation of the beta
+regression let's briefly analyze the mathematics of the beta regression
+algorithm. The beta regression is based on the logit function. The logit
+function plots probabilities between the interval 0 and 1. The logit
+function can be seen below. $$ logit(p) = log(p/(1-p))$$
+
+Another formula which will need to be accounted for in predicting the
+proportionality values is the beta density.The beta density is
+especially useful in modelling probabilities as it works on the interval
+\[0,1\] When implementing beta regression it is assumed that the
+response variable follows a beta distribution hence the name beta
+regression.The beta density formula is below. $$ 
+f(x;\alpha,\beta) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
+$$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma
+function. An alternate parameterization was proposed by (Ferrari and
+Cribari-Neto 2004) by setting $u = p/(p+q)$ and $\phi = p + q$
 
 $$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
-Weights are positive numbers and small if $X_i$ is far from $x$.
+ f(y;u,\phi) = \frac{\Gamma(\phi)}{\Gamma(u\phi)((1- u)\phi)}y^{u\phi-1}(1-y)^{{(1-u)}{\phi-1}}
+$$
+
+$$0<y<1$$
+
+with $0 < u < 1$ and $\phi > 0$.
+
+We denote $y\sim B(u,\phi)$ where $E(y)=u$ and $VAR(y)=u(1-u)/(1+\phi)$.
+The $\phi$ is known as the precision parameter. For a fixed value of $u$
+as the $\phi$ increases the variance of the response variable $y$
+decreases.
+
+Let $y_1,.....,y_n$ be a random sample set given that
+\$y_i\simB(u_i,\phi), i = 1,......,n. The beta regression model is
+defined as $$ g(u_i) = x^T_iB = n_i$$ where $B=(B_1,....,B_k)$ is a
+$k*1$ vector of unknown regression parameters
+$(k<n),x_i=(x_i,......x_n)^T$ is the vector of k regressors(independent
+variables or covariates) and $n_i$ is a linear predictor -
+i.e.,$n_i = B_1x_{i1}+...+B_kx_{ik};$ usually $x_{i1}$ = 1 for all $i$
+so that the model has an intercept.The $g(.): (0,1) -> IR$ represent the
+link function.
 
 ## Analysis and Results
 
-### Data and Vizualisation
+## Data and Visualization
 
-A study was conducted to determine how...
+### Attribute Information
 
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
+| Variable       | Variable Definition                                                                                                                                                                                                                           |
+|--------------------------|:---------------------------------------------|
+| Age            | age of the patient \[years\].                                                                                                                                                                                                                 |
+| Sex            | sex of the patient \[M: Male, F: Female\]                                                                                                                                                                                                     |
+| ChestPainType  | chest pain type \[TA: Typical Angina, ATA: AtypicalAngina, NAP: Non-Anginal Pain, ASY:Asymptomatic\]                                                                                                                                          |
+| RestingBP      | resting blood pressure \[mm Hg\]                                                                                                                                                                                                              |
+| Cholesterol    | serum cholesterol \[mm/dl\].                                                                                                                                                                                                                  |
+| FastingBS      | fasting blood sugar \[1: if FastingBS \> 120 mg/dl, 0:otherwise\]                                                                                                                                                                             |
+| RestingECG     | resting electrocardiogram results \[Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of \> 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria\] |
+| MaxHR          | maximum heart rate achieved \[Numeric value between 60 and 202\]                                                                                                                                                                              |
+| ExerciseAngina | exercise-induced angina \[Y: Yes, N: No\]                                                                                                                                                                                                     |
+| Oldpeak        | oldpeak = ST \[Numeric value measured in depression\]                                                                                                                                                                                         |
+| ST_Slope       | the slope of the peak exercise ST segment \[Up: upsloping,Flat: flat, Down: downsloping\]                                                                                                                                                     |
+| HeartDisease.  | output class \[1: heart disease, 0: Normal\]                                                                                                                                                                                                  |
+
+### Libraries
+
+```{r}
 library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(betareg)
+library(lmtest)
+library(car)
+library(rcompanion)
 ```
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
+### Loading Heart Dataset
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+```{r}
+heart <- read_csv("heart.csv")
+#str(heart)
+head(heart,5)
+```
 
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
+### Response Variable Creation and Analysis
 
+```{r}
+heart <- heart %>%
+      group_by(Cholesterol) %>%
+      mutate(Cholesterol_count_proportional = n()/918)
+heart <- heart %>%
+      group_by(Cholesterol) %>%
+      mutate(Cholesterol_count = n())
+
+heart_reduced <- subset(heart, select = c(Cholesterol,Cholesterol_count,Cholesterol_count_proportional))
+
+#table(heart$Cholesterol_count)
+                
+head(heart_reduced,10)
+summary(heart_reduced)
+```
+
+```{r}
+#table(heart$Cholesterol)
+#table(heart$Cholesterol_count_proportional)
+```
+
+## Exploratory Data Analysis
+
+```{r}
+# Analyzing the distribution of cholesterol variable
+#den <- density(heart$Cholesterol)
+#plot(den, frame = FALSE, col = "blue",main = "Cholesterol density plot", xlab = "Cholesterol values", ylab = 'Frequency')
+```
+
+```{r}
+heart %>%
+  keep(is.numeric) %>% 
+  gather() %>% 
+  ggplot(aes(value)) +
+    facet_wrap(~ key, scales = "free") +
+    geom_histogram()
+```
+
+```{r}
+ggplot(heart, aes(x = factor(HeartDisease))) +
+    geom_bar(fill = "red" ,alpha = 0.1,) +
+    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
+    theme_classic()  +
+    ggtitle("                                    Plot of Heart Disease ")  +
+    xlab("Heart Disease") + ylab(" The number of patients ") 
+```
+
+```{r}
+h <- hist(heart$Age,ylim = c(0,250),col = "lightgreen",main = "    Age Distribution",xlab = "Age Groups", ylab = " The number of patients")
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+```
+
+```{r}
+ggplot(heart, aes(x = factor(ChestPainType))) +
+    geom_bar(fill = "coral",alpha = 0.7) +
+    theme_classic() +
+    ggtitle("                   The plot of the count of different types of chest pain  ")+
+    xlab("The type Chest Pain") + ylab(" The number of patients  ")
+```
+
+```{r}
+ggplot(heart, aes(x = factor(ChestPainType), fill = Sex)) +
+    geom_bar(position = position_dodge()) +
+    theme_classic() +
+    ggtitle("                                    Plot of Gender vs type of chest pain ")+
+    xlab("The type Chest Pain") + ylab(" The number of patients  ")
+```
+
+```{r}
+ggplot(heart, aes(x = factor(HeartDisease), fill = Sex)) +
+    geom_bar(position = position_dodge()) +
+    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
+    theme_classic() +
+    ggtitle("                           Plot of Gender vs Heart Disease ")+
+    xlab("Heart Disease") + ylab(" The number of patients  ")
 ```
 
 ### Statistical Modeling
 
-### Conlusion
+```{r}
+model.beta = betareg(Cholesterol_count_proportional ~ ., data=heart)
+summary(model.beta)
+```
 
-## References
+```{r}
+model.betaA = betareg(Cholesterol_count_proportional ~ ., data=heart)
+model.beta = betareg(Cholesterol_count_proportional ~ Cholesterol, data=heart)
+lrtest(model.betaA,model.beta)
+
+```
+
+```{r}
+#install.packages("emmeans")
+#library(emmeans)
+
+#joint_tests(model.beta,rg.limit)
+```
+
+```{r}
+#Anova(model.beta)
+plotPredy(data  = heart,
+          y     = Cholesterol_count_proportional,
+          x     = Cholesterol,
+          model = model.beta,
+          xlab  = "Cholesterol values",
+         ylab  = "Proportions")
+```
+
+### Conclusion
+
+#### References
+
+Abonazel, Mohamed R., Issam Dawoud, Fuad A. Awwad, and Adewale F.
+Lukman. 2022. "Dawoud--Kibria Estimator for Beta Regression Model:
+Simulation and Application." Frontiers in Applied Mathematics and
+Statistics 8. https://doi.org/10.3389/fams.2022.775068. Couri, Lucas,
+Raydonal Ospina, Geiza da Silva, Víctor Leiva, and Jorge
+Figueroa-Zúñiga. 2022. "A Study on Computational Algorithms in the
+Estimation of Parameters for a Class of Beta Regression Models."
+Mathematics 10 (3): 299. https://doi.org/10.3390/math10030299.
+Cribari-Neto, Francisco, and Achim Zeileis. 2010. "Beta Regression in
+r." Journal of Statistical Software 34 (2): 1--24.
+https://doi.org/10.18637/jss.v034.i02. Douma, Jacob C., and James T.
+Weedon. 2019. "Analysing Continuous Proportions in Ecology and
+Evolution: A Practical Introduction to Beta and Dirichlet Regression."
+Methods in Ecology and Evolution 10 (9): 1412--30.
+https://doi.org/https://doi.org/10.1111/2041-210X.13234. Ferrari,
+Silvia, and Francisco Cribari-Neto. 2004. "Beta Regression for Modelling
+Rates and Proportions." Journal of Applied Statistics 31 (7): 799--815.
+https://EconPapers.repec.org/RePEc:taf:japsta:v:31:y:2004:i:7:p:799-815.
+Guolo, Annamaria, and Cristiano Varin. 2014. "Beta regression for time
+series analysis of bounded data, with application to Canada Google® Flu
+Trends." The Annals of Applied Statistics 8 (1): 74--88.
+https://doi.org/10.1214/13-AOAS684. Ospina, Raydonal, and Silvia L. P.
+Ferrari. 2012. "A General Class of Zero-or-One Inflated Beta Regression
+Models." Computational Statistics & Data Analysis 56 (6): 1609--23.
+https://doi.org/https://doi.org/10.1016/j.csda.2011.10.005. Patrícia L.
+Espinheira, Silvia L. P. Ferrari, and Francisco Cribari-Neto. 2008. "On
+Beta Regression Residuals." Journal of Applied Statistics 35 (4):
+407--19. https://doi.org/10.1080/02664760701834931. Schmid, Florian AND
+Maloney, Matthias AND Wickler. 2013. "Boosted Beta Regression." PLOS ONE
+8 (4): 1--15. https://doi.org/10.1371/journal.pone.0061623. Simas,
+Alexandre B., Wagner Barreto-Souza, and Andréa V. Rocha. 2010. "Improved
+estimators for a general class of beta regression models." Computational
+Statistics & Data Analysis 54 (2): 348--66.
+https://ideas.repec.org/a/eee/csdana/v54y2010i2p348-366.html.
