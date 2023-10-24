@@ -1,5 +1,5 @@
 ---
-title: "Beta Regression"
+title: "Beta Regression Report"
 author: "Marcus Chery"
 date: '`r Sys.Date()`'
 format:
