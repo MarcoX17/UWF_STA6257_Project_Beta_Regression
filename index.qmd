@@ -168,7 +168,7 @@ proportional variable. This was done by counting similar cholesterol
 values and grouping them together then dividing the grouped values by
 the total number of examples in the data set.
 
-After the creation the proportional response -
+After the creation the proportional response,
 Cholesterol_count_proportional,the beta regression algorithm is
 implemented.Before delving into the implementation of the beta
 regression let's briefly analyze the mathematics of the beta regression
