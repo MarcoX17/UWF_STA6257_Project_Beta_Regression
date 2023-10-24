@@ -190,7 +190,9 @@ function. An alternate parameterization was proposed by (Ferrari and
 Cribari-Neto 2004) by setting $u = p/(p+q)$ and $\phi = p + q$
 
 
-
+$$
+ f(y;u,\phi) = \frac{\Gamma(\phi)}{\Gamma(u\phi)(1- u(\phi))}y^{u\phi-1}(1-y)^{{(1-u)}{\phi-1}}
+$$
 
 
 $$0<y<1$$
