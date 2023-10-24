@@ -181,15 +181,17 @@ proportionality values is the beta density.The beta density is
 especially useful in modelling probabilities as it works on the interval
 \[0,1\] When implementing beta regression it is assumed that the
 response variable follows a beta distribution hence the name beta
-regression.The beta density formula is below. $$ 
+regression.
+
+The beta density formula is below. $$ 
 f(x;\alpha,\beta) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
 $$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma
 function. An alternate parameterization was proposed by (Ferrari and
 Cribari-Neto 2004) by setting $u = p/(p+q)$ and $\phi = p + q$
 
-$$
- f(y;u,\phi) = \frac{\Gamma(\phi)}{\Gamma(u\phi)((1- u)\phi)}y^{u\phi-1}(1-y)^{{(1-u)}{\phi-1}}
-$$
+
+
+
 
 $$0<y<1$$
 
