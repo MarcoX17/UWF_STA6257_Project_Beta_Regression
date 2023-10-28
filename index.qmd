@@ -189,11 +189,9 @@ $$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma
 function. An alternate parameterization was proposed by (Ferrari and
 Cribari-Neto 2004) by setting $u = p/(p+q)$ and $\phi = p + q$
 
-
 $$
  f(y;\mu,\phi)=\frac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)} y^{\mu\phi-1}(1-y)^{(1-\mu)(\phi-1)}
 $$
-
 
 $$0<y<1$$
 
@@ -220,20 +218,96 @@ link function.
 
 ### Attribute Information
 
-| Variable       | Variable Definition                                                                                                                                                                                                                           |
-|--------------------------|:---------------------------------------------|
-| Age            | age of the patient \[years\].                                                                                                                                                                                                                 |
-| Sex            | sex of the patient \[M: Male, F: Female\]                                                                                                                                                                                                     |
-| ChestPainType  | chest pain type \[TA: Typical Angina, ATA: AtypicalAngina, NAP: Non-Anginal Pain, ASY:Asymptomatic\]                                                                                                                                          |
-| RestingBP      | resting blood pressure \[mm Hg\]                                                                                                                                                                                                              |
-| Cholesterol    | serum cholesterol \[mm/dl\].                                                                                                                                                                                                                  |
-| FastingBS      | fasting blood sugar \[1: if FastingBS \> 120 mg/dl, 0:otherwise\]                                                                                                                                                                             |
-| RestingECG     | resting electrocardiogram results \[Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of \> 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria\] |
-| MaxHR          | maximum heart rate achieved \[Numeric value between 60 and 202\]                                                                                                                                                                              |
-| ExerciseAngina | exercise-induced angina \[Y: Yes, N: No\]                                                                                                                                                                                                     |
-| Oldpeak        | oldpeak = ST \[Numeric value measured in depression\]                                                                                                                                                                                         |
-| ST_Slope       | the slope of the peak exercise ST segment \[Up: upsloping,Flat: flat, Down: downsloping\]                                                                                                                                                     |
-| HeartDisease.  | output class \[1: heart disease, 0: Normal\]                                                                                                                                                                                                  |
+| Variable                                                               | Variable Definition      |
+|----------------------------------|:-------------------------------------|
+| GRE Scores                                                             | ( out of 340 ).          |
+| TOEFL Scores                                                           | ( out of 120 ).          |
+| University Rating                                                      | ( out of 5 ).            |
+| Statement of Purpose (SOP) and Letter of Recommendation (LOR) Strength | ( out of 5 )             |
+| Undergraduate GPA                                                      | ( out of 10 ).           |
+| Research Experience                                                    | ( either 0 or 1 ).       |
+| Chance of Admit                                                        | ( ranging from 0 to 1 ). |
+
+### Libraries
+
+```{r}
+#install.packages("janitor")
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(betareg)
+library(lmtest)
+library(car)
+library(rcompanion)
+library(janitor)
+library(here)
+```
+
+### Loading Dataset
+
+```{r}
+admission <- read_csv("adm_data.csv")
+#str(admission)
+
+admission <- admission %>%
+  clean_names()
+
+head(admission,5)
+```
+
+```{r}
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
+     xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red', xlim = c(75,350))
+
+#add scatterplot of x2 vs. y2
+points(chance_of_admit ~ toefl_score, data = admission, col='red', pch=19)
+```
+
+```{r}
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ toefl_score , data = admission, col='red', pch=19,
+     xlab='Toefl Score', ylab='Chance of Admit', main='Chance of Admit vs Toefl Score')
+
+# Linear fit
+abline(lm(admission$chance_of_admit ~ admission$toefl_score), col = "black", lwd = 3)
+
+# Smooth fit
+lines(lowess(admission$chance_of_admit ~ admission$toefl_score), col = "orange", lwd = 3)
+
+# Legend
+legend("topleft", legend = c("Linear", "Smooth"),
+       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
+```
+
+```{r}
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
+     xlab='GRE Score', ylab='Chance of Admit', main='Chance of Admit vs Gre Score')
+
+# Linear fit
+abline(lm(admission$chance_of_admit ~ admission$gre_score), col = "black", lwd = 3)
+
+# Smooth fit
+lines(lowess(admission$chance_of_admit ~ admission$gre_score), col = "orange", lwd = 3)
+
+# Legend
+legend("topleft", legend = c("Linear", "Smooth"),
+       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
+
+```
+
+
+
+
+```{r}
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ research , data = admission, col='yellow', pch=19,
+     xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red')
+```
+
+################################################################################################################# 
 
 ### Libraries
 
