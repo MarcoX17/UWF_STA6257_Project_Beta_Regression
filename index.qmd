@@ -212,8 +212,6 @@ i.e.,$n_i = B_1x_{i1}+...+B_kx_{ik};$ usually $x_{i1}$ = 1 for all $i$
 so that the model has an intercept.The $g(.): (0,1) -> IR$ represent the
 link function.
 
-## Analysis and Results
-
 ## Data and Visualization
 
 ### Attribute Information
@@ -232,6 +230,11 @@ link function.
 
 ```{r}
 #install.packages("janitor")
+#install.packages("caTools")
+#Insatll required packages
+#install.packages('caret')
+library(caret)
+library(reshape2)
 library(tidyverse)
 library(ggplot2)
 library(readr)
@@ -242,6 +245,8 @@ library(car)
 library(rcompanion)
 library(janitor)
 library(here)
+library(caTools)
+library(pROC)
 ```
 
 ### Loading Dataset
@@ -258,11 +263,11 @@ head(admission,5)
 
 ```{r}
 #create scatterplot of x1 vs. y1
-plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
-     xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red', xlim = c(75,350))
+#plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
+     #xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red', xlim = c(75,350))
 
 #add scatterplot of x2 vs. y2
-points(chance_of_admit ~ toefl_score, data = admission, col='red', pch=19)
+#points(chance_of_admit ~ toefl_score, data = admission, col='red', pch=19)
 ```
 
 ```{r}
@@ -280,6 +285,21 @@ lines(lowess(admission$chance_of_admit ~ admission$toefl_score), col = "orange",
 legend("topleft", legend = c("Linear", "Smooth"),
        lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
 ```
+```{r}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(university_rating))) +
+  geom_jitter(width = .2) +
+  scale_color_manual(values =  c("#270181", "coral","yellow","blue","green")) +
+  ggtitle("Chance of Admit by Toefl Score per University Ranking") +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+```
+```{r}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(research))) +
+  geom_jitter(width = .2)+
+  scale_color_manual(values = c("#270181", "coral"))+
+  ggtitle("Chance of Admit by Toefl Score per Research Experience")+
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+```
+
 
 ```{r}
 #create scatterplot of x1 vs. y1
@@ -297,147 +317,119 @@ legend("topleft", legend = c("Linear", "Smooth"),
        lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
 
 ```
+```{r}
+ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(university_rating))) +
+   geom_point() + 
+  scale_color_manual(values = c("#270181", "coral","yellow","blue","green")) +
+  ggtitle("Chance of Admit by Gre Score per University Ranking")+
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+```
 
-
-
+```{r}
+ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(research))) +
+   geom_point() + 
+  scale_color_manual(values = c("#270181", "coral")) +
+  ggtitle("Chance of Admit by Gre Score per Research experience")+
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+```
 
 ```{r}
 #create scatterplot of x1 vs. y1
-plot(chance_of_admit ~ research , data = admission, col='yellow', pch=19,
-     xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red')
+ggplot(admission, aes(x = cgpa, y = chance_of_admit, color = as.factor(university_rating))) +
+  geom_jitter(width = .2)+
+  scale_color_manual(values = c("#270181", "coral","yellow","blue","green")) +
+  ggtitle("Chance of Admit by GPA per University Rating")+
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
 ```
 
-################################################################################################################# 
-
-### Libraries
 
 ```{r}
-library(tidyverse)
-library(ggplot2)
-library(readr)
-library(dplyr)
-library(betareg)
-library(lmtest)
-library(car)
-library(rcompanion)
+data <- cor(admission[sapply(admission,is.numeric)])
+ 
+data1 <- melt(data)
+ggplot(data1, aes(x = Var1, y = Var2, fill = value)) +
+  coord_fixed()+
+  geom_tile() + scale_fill_distiller(palette = "Spectral") +
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) +
+  labs(title = "Admission Correlation Heatmap", x = " ",y = " ") +
+  geom_text(aes(label = round(value,digit = 2)), color = "black", size = 3) +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  
 ```
-
-### Loading Heart Dataset
-
-```{r}
-heart <- read_csv("heart.csv")
-#str(heart)
-head(heart,5)
-```
-
-### Response Variable Creation and Analysis
+## Analysis and Results
 
 ```{r}
-heart <- heart %>%
-      group_by(Cholesterol) %>%
-      mutate(Cholesterol_count_proportional = n()/918)
-heart <- heart %>%
-      group_by(Cholesterol) %>%
-      mutate(Cholesterol_count = n())
-
-heart_reduced <- subset(heart, select = c(Cholesterol,Cholesterol_count,Cholesterol_count_proportional))
-
-#table(heart$Cholesterol_count)
-                
-head(heart_reduced,10)
-summary(heart_reduced)
+#admission <- scale(admission)
+#admission <- as.data.frame(admission)
+#X = subset(admission,select = -c(chance_of_admit))
+#keeps <- c("chance_of_admit")
+#y = admission[keeps]
 ```
 
 ```{r}
-#table(heart$Cholesterol)
-#table(heart$Cholesterol_count_proportional)
+#make this example reproducible
+set.seed(1)
+
+#Use 70% of dataset as training set and remaining 30% as testing set
+sample <- sample(c(TRUE, FALSE), nrow(admission), replace=TRUE, prob=c(0.7,0.3))
+train  <- admission[sample, ]
+test   <- admission[!sample, ]
+
+#view dimensions of training set
+dim(train)
+
+#view dimensions of test set
+dim(test)
+
+X_train <- train
+#X_train = subset(train,select = -c(chance_of_admit))
+#keeps <- c("chance_of_admit")
+#y_train = train[keeps]
+
+
+X_test = subset(test,select = -c(chance_of_admit))
+keeps <- c("chance_of_admit")
+y_test = test[keeps]
+str(y_test)
 ```
 
-## Exploratory Data Analysis
 
 ```{r}
-# Analyzing the distribution of cholesterol variable
-#den <- density(heart$Cholesterol)
-#plot(den, frame = FALSE, col = "blue",main = "Cholesterol density plot", xlab = "Cholesterol values", ylab = 'Frequency')
+gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = X_train)
+summary(gy_logit)
+
+
+```
+```{r}
+predictions <- predict(gy_logit,X_test)
+#auc(y_test, predictions)
 ```
 
-```{r}
-heart %>%
-  keep(is.numeric) %>% 
-  gather() %>% 
-  ggplot(aes(value)) +
-    facet_wrap(~ key, scales = "free") +
-    geom_histogram()
-```
 
 ```{r}
-ggplot(heart, aes(x = factor(HeartDisease))) +
-    geom_bar(fill = "red" ,alpha = 0.1,) +
-    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
-    theme_classic()  +
-    ggtitle("                                    Plot of Heart Disease ")  +
-    xlab("Heart Disease") + ylab(" The number of patients ") 
-```
+predictions <- predict(gy_logit,X_test)
+#predictions <-as.factor(predictions)
+#y_test <- as.data.frame(y_test)
+#y_test <- as.factor(y_test)
+y_test <- as.tibble(y_test)
 
-```{r}
-h <- hist(heart$Age,ylim = c(0,250),col = "lightgreen",main = "    Age Distribution",xlab = "Age Groups", ylab = " The number of patients")
-text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
-```
+str(predictions)
+str(y_test)
 
-```{r}
-ggplot(heart, aes(x = factor(ChestPainType))) +
-    geom_bar(fill = "coral",alpha = 0.7) +
-    theme_classic() +
-    ggtitle("                   The plot of the count of different types of chest pain  ")+
-    xlab("The type Chest Pain") + ylab(" The number of patients  ")
-```
+length(predictions)
+length(y_test)
 
-```{r}
-ggplot(heart, aes(x = factor(ChestPainType), fill = Sex)) +
-    geom_bar(position = position_dodge()) +
-    theme_classic() +
-    ggtitle("                                    Plot of Gender vs type of chest pain ")+
-    xlab("The type Chest Pain") + ylab(" The number of patients  ")
-```
-
-```{r}
-ggplot(heart, aes(x = factor(HeartDisease), fill = Sex)) +
-    geom_bar(position = position_dodge()) +
-    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
-    theme_classic() +
-    ggtitle("                           Plot of Gender vs Heart Disease ")+
-    xlab("Heart Disease") + ylab(" The number of patients  ")
-```
-
-### Statistical Modeling
-
-```{r}
-model.beta = betareg(Cholesterol_count_proportional ~ ., data=heart)
-summary(model.beta)
-```
-
-```{r}
-model.betaA = betareg(Cholesterol_count_proportional ~ ., data=heart)
-model.beta = betareg(Cholesterol_count_proportional ~ Cholesterol, data=heart)
-lrtest(model.betaA,model.beta)
+#summarize results
+#example <- confusionMatrix(data=predictions, reference = y_test)
+#example <- table(predictions,y_test)
+#auc(predictions, y_test)
 
 ```
 
-```{r}
-#install.packages("emmeans")
-#library(emmeans)
 
-#joint_tests(model.beta,rg.limit)
-```
 
 ```{r}
-#Anova(model.beta)
-plotPredy(data  = heart,
-          y     = Cholesterol_count_proportional,
-          x     = Cholesterol,
-          model = model.beta,
-          xlab  = "Cholesterol values",
-         ylab  = "Proportions")
+vif(gy_logit) 
 ```
 
 ### Conclusion
