@@ -233,6 +233,9 @@ link function.
 #install.packages("caTools")
 #Insatll required packages
 #install.packages('caret')
+#install.packages("olsrr")
+#install.packages("StepBeta")
+#install.packages("leaps")
 library(caret)
 library(reshape2)
 library(tidyverse)
@@ -247,6 +250,9 @@ library(janitor)
 library(here)
 library(caTools)
 library(pROC)
+library(plotROC)
+library(StepBeta)
+library(MASS)
 ```
 
 ### Loading Dataset
@@ -359,14 +365,14 @@ ggplot(data1, aes(x = Var1, y = Var2, fill = value)) +
 ## Analysis and Results
 
 ```{r}
+# Scaling of Data
 #admission <- scale(admission)
 #admission <- as.data.frame(admission)
-#X = subset(admission,select = -c(chance_of_admit))
-#keeps <- c("chance_of_admit")
-#y = admission[keeps]
 ```
 
 ```{r}
+# Splitting the Data
+
 #make this example reproducible
 set.seed(1)
 
@@ -382,54 +388,104 @@ dim(train)
 dim(test)
 
 X_train <- train
-#X_train = subset(train,select = -c(chance_of_admit))
-#keeps <- c("chance_of_admit")
-#y_train = train[keeps]
-
 
 X_test = subset(test,select = -c(chance_of_admit))
 keeps <- c("chance_of_admit")
 y_test = test[keeps]
-str(y_test)
 ```
 
 
 ```{r}
-gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = X_train)
+gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + sop + lor + cgpa + research + sop*lor, data = train)
 summary(gy_logit)
-
-
 ```
 ```{r}
-predictions <- predict(gy_logit,X_test)
-#auc(y_test, predictions)
+library(leaps)
+models <- regsubsets(chance_of_admit~., data = admission, nvmax = 9,
+                     method = "seqrep")
+summary(models)
+```
+
+```{r}
+#Predictions on the test set
+#predictions <- predict(gy_logit,test[-9],type = "response")
+#lrtest(gy_logit)
+#AIC(gy_logit)
+#vif(gy_logit) 
+#Anova(gy_logit3)
+```
+
+```{r}
+gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
+AIC(gy_logit)
+gy_logit$pseudo.r.squared
+
+gy_logit1 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + cgpa , data = train)
+AIC(gy_logit1)
+gy_logit1$pseudo.r.squared
+
+gy_logit2 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + research, data = train)
+AIC(gy_logit2)
+gy_logit2$pseudo.r.squared
+
+gy_logit3 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + cgpa + research, data = train)
+AIC(gy_logit3)
+gy_logit3$pseudo.r.squared
+
+gy_logit4 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + lor + cgpa + research, data = train)
+AIC(gy_logit4)
+gy_logit4$pseudo.r.squared
+
+gy_logit5 <- betareg(chance_of_admit ~ serial_no + gre_score + university_rating + lor + cgpa + research, data = train)
+AIC(gy_logit5)
+gy_logit5$pseudo.r.squared
+
+gy_logit6 <- betareg(chance_of_admit ~ serial_no + toefl_score + university_rating + lor + cgpa + research, data = train)
+AIC(gy_logit6)
+gy_logit6$pseudo.r.squared
+
+gy_logit7 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
+AIC(gy_logit7)
+gy_logit7$pseudo.r.squared
 ```
 
 
 ```{r}
-predictions <- predict(gy_logit,X_test)
-#predictions <-as.factor(predictions)
-#y_test <- as.data.frame(y_test)
-#y_test <- as.factor(y_test)
-y_test <- as.tibble(y_test)
+predictions <- predict(gy_logit,test[-9],type = "response")
+df<- data.frame(predictions,y_test)
+ggplot(df, aes(x=chance_of_admit, y = predictions )) +
+  geom_point(color = "red") +
+  geom_abline(intercept=0, slope=1, color = "yellow", lwd = 1) +
+  labs(y='Predicted Values', x ='Actual Values', title='                                  Predicted vs. Actual Values') +
+  theme_bw()
+```
+```{r}
+predictions <- predict(gy_logit,test[-9],type = "response")
+df<- data.frame(predictions,y_test)
+ggplot(df, aes(x=1:nrow(df))) + 
+  geom_line(aes(y = predictions), color = "darkred") + 
+  geom_line(aes(y = test$chance_of_admit), color="steelblue")+
+  labs( y = " ", x = " Number of rows ",title='                       Predicted values - red vs. Actual Values - blue') +
+  theme_bw()
+```
 
-str(predictions)
-str(y_test)
-
-length(predictions)
-length(y_test)
-
-#summarize results
-#example <- confusionMatrix(data=predictions, reference = y_test)
-#example <- table(predictions,y_test)
-#auc(predictions, y_test)
-
+```{r}
+predictions <- predict(gy_logit4,test[-9],type = "response")
+df<- data.frame(predictions,y_test)
+ggplot(df, aes(x=chance_of_admit, y = predictions )) +
+  geom_point(color = "blue") +
+  geom_abline(intercept=0, slope=1, color = "green", lwd = 1) +
+  labs(y='Predicted Values', x ='Actual Values', title='                                  Predicted vs. Actual Values') +
+  theme_bw()
 ```
 
 
-
 ```{r}
-vif(gy_logit) 
+plot(gy_logit3,main = "Model 3")
+```
+```{r}
+plot(fitted(gy_logit3),
+     residuals(gy_logit3))
 ```
 
 ### Conclusion
