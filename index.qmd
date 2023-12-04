@@ -1,8 +1,9 @@
 ---
-title: "Beta Regression Report"
-author: "Marcus Chery"
+title: "Predicting Students' Chance of Admission Using Beta Regression"
+author: "Marcus Chery and Keiron Green"
 date: '`r Sys.Date()`'
-format:
+
+format: 
   html:
     code-fold: true
 course: STA 6257 - Advanced Statistical Modeling
@@ -22,11 +23,11 @@ editor:
 Beta regression is a statistical methodology tailored to address the
 challenges associated with modeling continuous bounded response
 variables, often constrained within the open interval (0, 1). Beta
-regression, as introduced by (Ferrari and Cribari-Neto 2004) in their
-seminal paper, offers an elegant framework for modeling proportions and
-percentages with an emphasis on interpretability of model parameters.
-This foundational work serves as a cornerstone for subsequent research
-and applications.
+regression, as introduced by [@ferrari2004] in their seminal paper,
+offers an elegant framework for modeling proportions and percentages
+with an emphasis on interpretability of model parameters. This
+foundational work serves as a cornerstone for subsequent research and
+applications.
 
 This report delves into the application of beta regression within the
 context of heart disease data analysis. Our objective is to provide a
@@ -45,7 +46,7 @@ distribution, and the goal is to model its relationship with one or more
 independent variables. Beta regression is suitable for data where the
 response variable lies within a closed interval, such as proportions,
 percentages, or rates. It considers both the mean and the dispersion of
-the data (Ferrari and Cribari-Neto 2004).
+the data [@ferrari2004] .
 
 The beta distribution is characterized by two parameters: alpha (α) and
 beta (β). These parameters can be modeled as a function of predictor
@@ -60,48 +61,46 @@ into how changes in the predictor variables affect the distribution of
 the response variable, including its mean and variability.
 
 Complementing this, the "betareg" package for R, as presented by
-(Cribari-Neto and Zeileis 2010), provides various methods and procedures
-for implementing beta regression models in R. Building on the foundation
-laid by (Ferrari and Cribari-Neto 2004), (Cribari-Neto and Zeileis 2010)
-introduce the "betareg" package for R, offering a practical
-implementation of beta regression models. This paper is instrumental in
-bringing beta regression into the realm of data analysis and showcases
-the package's utility in addressing challenges related to continuous
-bounded response variables.
+[@cri2010], provides various methods and procedures for implementing
+beta regression models in R. Building on the foundation laid by
+[@ferrari2004], [@cri2010] introduce the "betareg" package for R,
+offering a practical implementation of beta regression models. This
+paper is instrumental in bringing beta regression into the realm of data
+analysis and showcases the package's utility in addressing challenges
+related to continuous bounded response variables.
 
-(Guolo and Varin 2014) seek to expand on beta regression. The authors
-incorporate a Gaussian copula to model serial dependence in the data,
-making it applicable to time series analysis. The study's practical
-application involves analyzing influenza-like-illness incidence data
-from the Google Flu Trends project. Their methodology provides a
-framework for analyzing bounded time series data and offers insights
-into inference, prediction, and control in this context.
+[@guolo2014] seek to expand on beta regression. The authors incorporate
+a Gaussian copula to model serial dependence in the data, making it
+applicable to time series analysis. The study's practical application
+involves analyzing influenza-like-illness incidence data from the Google
+Flu Trends project. Their methodology provides a framework for analyzing
+bounded time series data and offers insights into inference, prediction,
+and control in this context.
 
-Moreover, the paper authored by (Patrícia L. Espinheira and Cribari-Neto
-2008) unveils innovative residuals, based on Fisher's scoring iterative
-algorithm, enhancing model assessments and bias correction---a pivotal
-contribution to the methodology's practical applicability. They address
-a common challenge in statistical analysis by offering a practical
-solution for improved model assessments and bias correction. The study
-presents new residuals based on Fisher's scoring iterative algorithm,
-demonstrating their superiority in various scenarios, particularly in
-small sample sizes.
+Moreover, the paper authored by [@espinheira2008] unveils innovative
+residuals, based on Fisher's scoring iterative algorithm, enhancing
+model assessments and bias correction---a pivotal contribution to the
+methodology's practical applicability. They address a common challenge
+in statistical analysis by offering a practical solution for improved
+model assessments and bias correction. The study presents new residuals
+based on Fisher's scoring iterative algorithm, demonstrating their
+superiority in various scenarios, particularly in small sample sizes.
 
 Various papers throughout the years have sought to improve the basic
-beta regression techniques of (Ferrari and Cribari-Neto 2004). (Simas,
-Barreto-Souza, and Rocha 2010) delve into bias correction methods for
-beta regression models in the quest for improved estimators in beta
-regression. They address biases in parameter estimation, a critical
-concern. Recognizing the potential for bias in parameter estimation,
-especially in small sample sizes, the paper provides closed-form
-expressions for second-order biases in maximum likelihood estimators.
-The authors present various methods for bias correction, including
-analytical approaches and bootstrap bias adjustment, enhancing the
-accuracy of model assessments and mitigating erroneous conclusions.
+beta regression techniques of [@ferrari2004]. [@simas2010] delve into
+bias correction methods for beta regression models in the quest for
+improved estimators in beta regression. They address biases in parameter
+estimation, a critical concern. Recognizing the potential for bias in
+parameter estimation, especially in small sample sizes, the paper
+provides closed-form expressions for second-order biases in maximum
+likelihood estimators. The authors present various methods for bias
+correction, including analytical approaches and bootstrap bias
+adjustment, enhancing the accuracy of model assessments and mitigating
+erroneous conclusions.
 
-Likewise, (Schmid 2013) introduced one such enhancement known as the
+Likewise, [@schmid2013] introduced one such enhancement known as the
 "boosted beta regression" as a novel extension of classical beta
-regression. (Schmid 2013) address complex modeling scenarios with many
+regression. [@schmid2013] address complex modeling scenarios with many
 predictor variables, multicollinearity, nonlinear relationships, and
 overdispersion dependencies. They utilize the gamboostLSS algorithm to
 efficiently estimate beta regression models, making it possible to fit
@@ -110,28 +109,27 @@ effectiveness is demonstrated through ecological data applications,
 highlighting its advantages in terms of model fit and prediction
 accuracy.
 
-(Abonazel et al. 2022) took a different approach. They focused on
-improving the estimation of beta regression models when
-multicollinearity was present among regressors. They introduced the
-Dawoud--Kibria estimator as an alternative to the conventional maximum
-likelihood estimator (BML) when dealing with such situations. The
-authors derived the properties of this new estimator and assess its
-performance through theoretical comparisons, Monte Carlo simulations,
-and a real-life application.
+[@abonazel2022] took a different approach. They focused on improving the
+estimation of beta regression models when multicollinearity was present
+among regressors. They introduced the Dawoud--Kibria estimator as an
+alternative to the conventional maximum likelihood estimator (BML) when
+dealing with such situations. The authors derived the properties of this
+new estimator and assess its performance through theoretical
+comparisons, Monte Carlo simulations, and a real-life application.
 
 Finally, it is important to note the challenges of beta regression.
-(Douma and Weedon 2019) addresses one challenge of analyzing
-proportional data in ecology and evolution. Proportional data, common in
-these fields, pose unique statistical challenges due to their bounded
-nature and varying variances. The paper introduces beta and Dirichlet
-regression techniques as effective tools for analyzing such data. These
-methods allow for analysis at the original scale, reducing bias and
-simplifying interpretation. The article provides practical guidance on
-model fitting and reporting.
+[@douma2019] addresses one challenge of analyzing proportional data in
+ecology and evolution. Proportional data, common in these fields, pose
+unique statistical challenges due to their bounded nature and varying
+variances. The paper introduces beta and Dirichlet regression techniques
+as effective tools for analyzing such data. These methods allow for
+analysis at the original scale, reducing bias and simplifying
+interpretation. The article provides practical guidance on model fitting
+and reporting.
 
-(Couri et al. 2022) focuses on the computational challenges of
-estimating parameters in beta regression models. The authors evaluate
-ten algorithms for parameter estimation and find that four, including
+[@couri2022] focuses on the computational challenges of estimating
+parameters in beta regression models. The authors evaluate ten
+algorithms for parameter estimation and find that four, including
 simulated annealing, perform well. The paper also examines the optim
 function in R and suggests its use in challenging cases. Simulated
 annealing is recommended, particularly when the optim function fails.
@@ -139,9 +137,9 @@ Overall, the research offers insights into improving parameter
 estimation for beta regression models in various applications.
 
 Furthermore, one such limitation of classical beta regression is its
-handling of zero or one inflated data. (Ospina and Ferrari 2012)
-introduce a versatile class of regression models, zero-or-one inflated
-beta regression, specifically tailored to address datasets containing
+handling of zero or one inflated data. [@ospina2012] introduce a
+versatile class of regression models, zero-or-one inflated beta
+regression, specifically tailored to address datasets containing
 continuous proportions with zeros or ones. The paper offers a flexible
 solution for modeling mixed continuous-discrete distributions, essential
 in real-world scenarios such as income contributions or work-related
@@ -212,30 +210,132 @@ i.e.,$n_i = B_1x_{i1}+...+B_kx_{ik};$ usually $x_{i1}$ = 1 for all $i$
 so that the model has an intercept.The $g(.): (0,1) -> IR$ represent the
 link function.
 
-## Data and Visualization
+## Analysis and Results
+
+This section aims to identify key variables for constructing a beta
+regression model to predict admission chances. Initially, we analyze the
+dataset to determine the correlation between various predictors and the
+chance of admission. Following this, we use these insights to develop
+and evaluate several models, focusing on their predictive accuracy and
+effectiveness. This process is critical for establishing a reliable
+model that accurately forecasts admission probabilities based on the
+identified significant predictors.
+
+### Data and Visualization
+
+Data: [**University Admission
+Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-in-the-university/data)
 
 ### Attribute Information
 
-| Variable                                                               | Variable Definition      |
-|----------------------------------|:-------------------------------------|
-| GRE Scores                                                             | ( out of 340 ).          |
-| TOEFL Scores                                                           | ( out of 120 ).          |
-| University Rating                                                      | ( out of 5 ).            |
-| Statement of Purpose (SOP) and Letter of Recommendation (LOR) Strength | ( out of 5 )             |
-| Undergraduate GPA                                                      | ( out of 10 ).           |
-| Research Experience                                                    | ( either 0 or 1 ).       |
-| Chance of Admit                                                        | ( ranging from 0 to 1 ). |
++--------------+--------------+--------------+--------------+
+| V a r i a    | P a r a m e  | R a nge      | D e s c r i  |
+| ble          | ter          |              | p t ion      |
++==============+==============+:=============+==============+
+| GRE S c o    | g r e \_ s c | 2 9 0 - 340  | Q u a n t i  |
+| res          | ore          |              | f ies a c a  |
+|              |              | ( 340 s c a  | n d i d a t  |
+|              |              | le)          | e's p e r f  |
+|              |              |              | o r m a nce  |
+|              |              |              | on the G r a |
+|              |              |              | d u ate R e  |
+|              |              |              | c ord E x a  |
+|              |              |              | m i n a t i  |
+|              |              |              | on, w ith a  |
+|              |              |              | m a x i mum  |
+|              |              |              | s c ore of   |
+|              |              |              | 340          |
++--------------+--------------+--------------+--------------+
+| T O EFL S c  | t o e f l \_ | 9 2 - 120    | M e a s u    |
+| o res        | s c ore      |              | res E n g l  |
+|              |              | ( 120 s c a  | ish l a n g  |
+|              |              | le)          | u age p r o  |
+|              |              |              | f i c i e n  |
+|              |              |              | cy, s c o    |
+|              |              |              | red out of a |
+|              |              |              | t o tal of   |
+|              |              |              | 120 p o i    |
+|              |              |              | nts          |
++--------------+--------------+--------------+--------------+
+| U n i v e r  | u n i ver s  | 1 to 5 w ith | R a tes u n  |
+| s ity R a t  | i t y \_ r a | 5 b e ing    | i v e r s i  |
+| ing          | t ing        | the h i g h  | t ies on a s |
+|              |              | est r a t    | c ale f rom  |
+|              |              | ing          | 1 to 5, i n  |
+|              |              |              | d i c a t    |
+|              |              |              | ing t h eir  |
+|              |              |              | o v e r all  |
+|              |              |              | q u a l ity  |
+|              |              |              | and r e p u  |
+|              |              |              | t a t i on.  |
++--------------+--------------+--------------+--------------+
+| S t a t e m  | sop          | 1 to 5 w ith | E v a l u a  |
+| ent of P u r |              | 5 b e ing    | tes the s t  |
+| p ose ( S    |              | the h i g h  | r e n gth    |
+| OP) S t r e  |              | est r a t    | and q u a l  |
+| n gth        |              | ing          | ity of a c a |
+|              |              |              | n d i d a t  |
+|              |              |              | e's SOP on a |
+|              |              |              | s c ale of 1 |
+|              |              |              | to 5         |
++--------------+--------------+--------------+--------------+
+| L e t ter of | lor          | 1 to 5 w ith | E v a l u a  |
+| R e c o m m  |              | 5 b e ing    | tes the s t  |
+| e n d a t    |              | the h i g h  | r e n gth    |
+| ion ( L OR)  |              | est r a t    | and q u a l  |
+| S t r e n    |              | ing          | ity of a c a |
+| gth          |              |              | n d i d a t  |
+|              |              |              | e's SOP and  |
+|              |              |              | LOR on a s c |
+|              |              |              | ale of 1 to  |
+|              |              |              | 5            |
++--------------+--------------+--------------+--------------+
+| U n d e r g  | c gpa        | 6 . 8 - 9    | R e f l e    |
+| r a d u ate  |              | .92          | cts a s t u  |
+| GPA          |              |              | d e n t's a  |
+|              |              | ( 1 0.0 s c  | c a d e mic  |
+|              |              | a le)        | p e r f o r  |
+|              |              |              | m a nce in t |
+|              |              |              | h eir u n d  |
+|              |              |              | e r g r a d  |
+|              |              |              | u ate s t u  |
+|              |              |              | d i es, s c  |
+|              |              |              | o red on a 1 |
+|              |              |              | 0 - p o int  |
+|              |              |              | s c ale      |
++--------------+--------------+--------------+--------------+
+| R e s e a    | r e s e a    | 0 or 1       | I n d i c a  |
+| rch E x p e  | rch          |              | tes w h e t  |
+| r i e nce    |              |              | her a c a n  |
+|              |              |              | d i d ate    |
+|              |              |              | has r e s e  |
+|              |              |              | a rch e x p  |
+|              |              |              | e r i e nce  |
+|              |              |              | (1) or not ( |
+|              |              |              | 0).          |
++--------------+--------------+--------------+--------------+
+| C h a nce of | c han c e \_ | 0 . 3 4 - 0  | R e p r e s  |
+| A d mit      | o f \_ a d   | .97          | e nts the l  |
+|              | mit          |              | i k e l i h  |
+|              |              | (0 to 1 s c  | ood of a s t |
+|              |              | a le)        | u d ent b e  |
+|              |              |              | ing a d m i  |
+|              |              |              | t t ed, e x  |
+|              |              |              | p r e s sed  |
+|              |              |              | as a d e c i |
+|              |              |              | mal b e t w  |
+|              |              |              | een 0 and 1  |
++--------------+--------------+--------------+--------------+
 
 ### Libraries
+
+Load necessary packages for analysis and modeling.
 
 ```{r}
 #install.packages("janitor")
 #install.packages("caTools")
 #Insatll required packages
 #install.packages('caret')
-#install.packages("olsrr")
-#install.packages("StepBeta")
-#install.packages("leaps")
 library(caret)
 library(reshape2)
 library(tidyverse)
@@ -250,14 +350,11 @@ library(janitor)
 library(here)
 library(caTools)
 library(pROC)
-library(plotROC)
-library(StepBeta)
-library(MASS)
 ```
 
 ### Loading Dataset
 
-```{r}
+```{r, warning=FALSE}
 admission <- read_csv("adm_data.csv")
 #str(admission)
 
@@ -267,102 +364,207 @@ admission <- admission %>%
 head(admission,5)
 ```
 
-```{r}
-#create scatterplot of x1 vs. y1
-#plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
-     #xlab='Test Scores', ylab='Chance of Admit', main='Chance of Admit vs Gre Score -blue vs Toefl Score - red', xlim = c(75,350))
+### Chance of Admit and TOEFL
 
-#add scatterplot of x2 vs. y2
-#points(chance_of_admit ~ toefl_score, data = admission, col='red', pch=19)
+Based on exploratory data analysis, TOEFL scores appear to be associated
+with a greater chance of admission, this chance of admission is further
+augmented by higher university ratings, and research experience appears
+to be a strong factor in increasing both TOEFL scores and the likelihood
+of admission.
+
+```{r, warning=FALSE}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit)) +
+  geom_point(color = "#1f77b4", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  geom_smooth(method = "loess", color = "orange", se = FALSE) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", title = "Linear and Smooth Fit: Chance of Admission vs TOEFL Score") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10),
+        legend.position = "bottom")
+
+
 ```
 
-```{r}
-#create scatterplot of x1 vs. y1
-plot(chance_of_admit ~ toefl_score , data = admission, col='red', pch=19,
-     xlab='Toefl Score', ylab='Chance of Admit', main='Chance of Admit vs Toefl Score')
+The correlation coefficient of 0.791594 between TOEFL scores and the
+chance of admit suggests a strong positive relationship. This indicates
+that as TOEFL scores increase, the chance of admission tends to increase
+as well.
 
-# Linear fit
-abline(lm(admission$chance_of_admit ~ admission$toefl_score), col = "black", lwd = 3)
-
-# Smooth fit
-lines(lowess(admission$chance_of_admit ~ admission$toefl_score), col = "orange", lwd = 3)
-
-# Legend
-legend("topleft", legend = c("Linear", "Smooth"),
-       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
-```
-```{r}
+```{r, warning=FALSE}
 ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(university_rating))) +
-  geom_jitter(width = .2) +
-  scale_color_manual(values =  c("#270181", "coral","yellow","blue","green")) +
-  ggtitle("Chance of Admit by Toefl Score per University Ranking") +
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  geom_jitter(width = .2, size = I(3)) +
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by TOEFL Score per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10)) +
+  geom_smooth(method = "lm", se = FALSE)
+
+
 ```
+
+This trend indicates that applicants to higher-rated universities
+generally have a higher chance of admission. The standard deviation
+decreases as the university rating increases, suggesting more
+consistency in admission chances at higher-rated universities.
+
 ```{r}
 ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(research))) +
-  geom_jitter(width = .2)+
-  scale_color_manual(values = c("#270181", "coral"))+
-  ggtitle("Chance of Admit by Toefl Score per Research Experience")+
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  geom_jitter(width = .2) +
+  scale_color_manual(values = c("#270181", "coral")) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", color = "Research Experience", 
+       title = "Chance of Admit by TOEFL Score per Research Experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
 ```
 
+Applicants with research experience (Research = 1) have a higher average
+TOEFL score (approx. 110) compared to those without research experience
+(Research = 0), who have an average TOEFL score of about 104.
+
+The mean chance of admission for applicants with research experience is
+significantly higher (approx. 0.796) than for those without (approx.
+0.638).
+
+This data suggests that research experience is positively associated
+with both higher TOEFL scores and a greater likelihood of admission.
+
+### Chance of Admit and GRE
+
+These analyses suggest that higher GRE scores are strongly correlated
+with an increased chance of admission. The likelihood of admission also
+appears to be influenced by the university rating and is further
+enhanced by research experience.
 
 ```{r}
-#create scatterplot of x1 vs. y1
-plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
-     xlab='GRE Score', ylab='Chance of Admit', main='Chance of Admit vs Gre Score')
+library(ggplot2)
 
-# Linear fit
-abline(lm(admission$chance_of_admit ~ admission$gre_score), col = "black", lwd = 3)
+ggplot(admission, aes(x = gre_score, y = chance_of_admit)) +
+  geom_point(color = "#1f77b4", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  geom_smooth(method = "loess", color = "orange", se = FALSE) +
+  labs(x = "GRE Score", y = "Chance of Admission", 
+       title = "Chance of Admit vs GRE Score") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10),
+        legend.position = "bottom") +
+  guides(color = guide_legend(title = "Type of Fit", 
+                              override.aes = list(linetype = c("solid", "dashed"))))
 
-# Smooth fit
-lines(lowess(admission$chance_of_admit ~ admission$gre_score), col = "orange", lwd = 3)
-
-# Legend
-legend("topleft", legend = c("Linear", "Smooth"),
-       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
 
 ```
+
+A correlation coefficient of 0.8026105 indicates a strong positive
+relationship between GRE scores and the chance of admission. This
+suggests that higher GRE scores are generally associated with a higher
+likelihood of being admitted.
+
 ```{r}
 ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(university_rating))) +
-   geom_point() + 
-  scale_color_manual(values = c("#270181", "coral","yellow","blue","green")) +
-  ggtitle("Chance of Admit by Gre Score per University Ranking")+
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  geom_point() + 
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "GRE Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by GRE Score per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
 ```
+
+This trend suggests that applicants to higher-rated universities have a
+higher chance of admission, with the chance of admission being most
+favorable at the highest-rated universities.
 
 ```{r}
 ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(research))) +
-   geom_point() + 
+  geom_point() + 
   scale_color_manual(values = c("#270181", "coral")) +
-  ggtitle("Chance of Admit by Gre Score per Research experience")+
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  labs(x = "GRE Score", y = "Chance of Admission", color = "Research Experience", 
+       title = "Chance of Admit by GRE Score per Research Experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
 ```
 
+Applicants with research experience (Research = 1) have a higher average
+GRE score (about 323) compared to those without research experience
+(Research = 0), who have an average GRE score of approximately 309.
+Similarly, the mean chance of admission is significantly higher for
+applicants with research experience (approx. 0.796) than for those
+without it (approx. 0.638). This indicates that research experience is
+positively associated with both higher GRE scores and a greater
+likelihood of admission.
+
+### Chance of Admit and CGPA
+
 ```{r}
-#create scatterplot of x1 vs. y1
 ggplot(admission, aes(x = cgpa, y = chance_of_admit, color = as.factor(university_rating))) +
-  geom_jitter(width = .2)+
-  scale_color_manual(values = c("#270181", "coral","yellow","blue","green")) +
-  ggtitle("Chance of Admit by GPA per University Rating")+
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  geom_point() + 
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "G.P.A Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by G.P.A per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
+Applicants with a higher g.p.a have a higher acceptance probability as
+the university ranking goes from low(1) to high(5). The correlation
+value of 0.87 indicates a strong positive relationship between G.P.A
+score and the chance of admission. This suggests that higher a G.P.A
+score are generally associated with a higher likelihood of being
+admitted.
+
+### Chance of Admission Correlation Heatmap
 
 ```{r}
-data <- cor(admission[sapply(admission,is.numeric)])
- 
+library(ggplot2)
+library(reshape2)
+library(viridis)
+
+# Calculate the correlation matrix
+data <- cor(admission[sapply(admission, is.numeric)], use = "complete.obs")
+
+# Reshape data for ggplot
 data1 <- melt(data)
+
+# Create the heatmap
 ggplot(data1, aes(x = Var1, y = Var2, fill = value)) +
-  coord_fixed()+
-  geom_tile() + scale_fill_distiller(palette = "Spectral") +
-  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) +
-  labs(title = "Admission Correlation Heatmap", x = " ",y = " ") +
-  geom_text(aes(label = round(value,digit = 2)), color = "black", size = 3) +
-  theme(plot.title = element_text(color = "black", size = 14, face = "bold"))
+  geom_tile() +
+  scale_fill_viridis(option = "C", direction = -1) +  # Using viridis color scale
+  labs(title = "Admission Correlation Heatmap", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 10),
+        axis.text.y = element_text(size = 10),
+        plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "right") +
+  geom_text(aes(label = round(value, digits = 2)), color = "white", size = 3)
+
   
 ```
+
+The heatmap shows that GRE scores, TOEFL scores, and CGPA are strongly
+and positively correlated with the chance of admission. Research
+experience also positively influences admission chances, albeit to a
+lesser extent than academic scores.
+
 ## Analysis and Results
+
+Given the exploratory data analysis, we will now construct a predictive
+model for the response variable chance_of_admit.
 
 ```{r}
 # Scaling of Data
@@ -382,10 +584,10 @@ train  <- admission[sample, ]
 test   <- admission[!sample, ]
 
 #view dimensions of training set
-dim(train)
+#dim(train)
 
 #view dimensions of test set
-dim(test)
+#dim(test)
 
 X_train <- train
 
@@ -394,103 +596,253 @@ keeps <- c("chance_of_admit")
 y_test = test[keeps]
 ```
 
+## Fitting Model 1
+
+Model 1 = chance_of_admit \~ gre_score + toefl_score +
+university_rating + sop + lor + cgpa + research + sop\*lor
 
 ```{r}
-gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + sop + lor + cgpa + research + sop*lor, data = train)
-summary(gy_logit)
+gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research + sop*lor, data = train)
+
+model_summary <- summary(gy_logit)
+# Extracting coefficients for the mean model
+coefficients_mean <- model_summary$coefficients$mean
+coeff_mean_df <- data.frame(round(coefficients_mean, 4))
+colnames(coeff_mean_df) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
+
+# Extract log-likelihood and pseudo R-squared
+log_likelihood <- round(model_summary$loglik, 2)
+pseudo_r_squared <- round(model_summary$pseudo.r.squared, 4)
+
+# Print the formatted results
+print("Coefficients (Mean Model):")
+print(coeff_mean_df)
+cat("\nLog-Likelihood:", log_likelihood, "\nPseudo R-squared:", pseudo_r_squared)
+
 ```
+
+Next we use the\`regsubsets\` function to perform subset selection,
+aiming to identify the most predictive variables for the
+\`chance_of_admit\` outcome. This approach systematically evaluates
+combinations of up to seven predictors, such as \`gre_score\`,
+\`toefl_score\`, \`cgpa\`, and others, to determine their impact on the
+chance of admission. The goal is to find the optimal set of variables
+that best predict the admission outcome with varying model complexities.
+
+The output indicates which variables are included in the best models at
+each complexity level, revealing that \`cgpa\`, \`gre_score\`, and
+\`lor\` are significant predictors in simpler models. As more variables
+are added, the model becomes more complex, potentially improving
+accuracy but also increasing the risk of overfitting. This analysis
+helps in understanding the relative importance of different academic and
+profile factors in determining admission chances. In the analyzing the
+predictors and their impact, it is determined that the greatest factor
+affecting the probability of admission is g.p.a. by a factor of.64. This
+is followed by research with a factor of 0.15 and the combination of
+statement of purpose and letter of recommendation with a factor of 0.07.
+
 ```{r}
 library(leaps)
-models <- regsubsets(chance_of_admit~., data = admission, nvmax = 9,
+models <- regsubsets(chance_of_admit~. -serial_no, data = admission, nvmax = 9,
                      method = "seqrep")
-summary(models)
+
+library(broom)
+
+model_summaries <- summary(models)
+
+# Number of models
+num_models <- nrow(model_summaries$which)
+
+# Initialize an empty data frame for the summary
+summary_table <- data.frame(Size = integer(), 
+                            Variables = character(), 
+                            R.Squared = numeric(), 
+                            Adj.R.Squared = numeric(), 
+                            BIC = numeric(), 
+                            stringsAsFactors = FALSE)
+
+# Fill the summary table
+for (i in 1:num_models) {
+  included_vars <- names(which(model_summaries$which[i, ]))
+  vars_str <- paste(included_vars, collapse = ", ")
+  summary_table <- rbind(summary_table, 
+                         data.frame(Size = i, 
+                                    Variables = vars_str, 
+                                    R.Squared = model_summaries$rsq[i], 
+                                    Adj.R.Squared = model_summaries$adjr2[i], 
+                                    BIC = model_summaries$bic[i]))
+}
+
+# Print the table
+print(summary_table)
+
+
+
 ```
 
+In this analysis 10-fold cross-validation is employed to provide
+assessment of the model's predictive performance by dividing the data
+into ten subsets and iteratively training the model on nine subsets
+while testing on the remaining one. The procedure is repeated for models
+with varying numbers of predictors. Key performance metrics such as RMSE
+(Root Mean Squared Error), R-squared, and MAE (Mean Absolute Error) are
+calculated for each model, showing how the inclusion of additional
+variables impacts the model's accuracy. The results show variations in
+model performance across different numbers of predictors, with certain
+models achieving lower RMSE and higher R-squared values
+
 ```{r}
-#Predictions on the test set
-#predictions <- predict(gy_logit,test[-9],type = "response")
-#lrtest(gy_logit)
-#AIC(gy_logit)
-#vif(gy_logit) 
-#Anova(gy_logit3)
+# Set seed for reproducibility
+set.seed(123)
+# Set up repeated k-fold cross-validation
+train.control <- trainControl(method = "cv", number = 10)
+# Train the model
+step.model <- train(chance_of_admit ~. -serial_no, data = admission,
+                    method = "leapSeq", 
+                    tuneGrid = data.frame(nvmax = 1:7),
+                    trControl = train.control
+                    )
+step.model$results
 ```
 
+We employ beta regression models to predict the chance of admission,
+utilizing various combinations of predictors such as GRE scores, TOEFL
+scores, university ratings, letters of recommendation, CGPA, and
+research experience. The primary objective is to determine the optimal
+set of predictors that can accurately forecast admission chances while
+maintaining model simplicity.
+
+The models, labeled \`gy_logit\` to \`gy_logit7\`, were evaluated using
+the Akaike Information Criterion (AIC) and the pseudo R-squared metric.
+A lower AIC value indicates a more efficient model in terms of the
+trade-off between goodness of fit and complexity, while a higher pseudo
+R-squared value suggests a better model fit.
+
+The outcomes reveal that \`gy_logit4\` and \`gy_logit7\` yield the
+lowest AIC values, indicating they are potentially the most efficient
+models among those tested. Both these models, along with \`gy_logit\`,
+also exhibit the highest pseudo R-squared values, suggesting strong
+model fits.
+
 ```{r}
-gy_logit <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
-AIC(gy_logit)
-gy_logit$pseudo.r.squared
+gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
 
-gy_logit1 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + cgpa , data = train)
-AIC(gy_logit1)
-gy_logit1$pseudo.r.squared
+gy_logit1 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa , data = train)
 
-gy_logit2 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + lor + research, data = train)
-AIC(gy_logit2)
-gy_logit2$pseudo.r.squared
+gy_logit2 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + research, data = train)
 
-gy_logit3 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + university_rating + cgpa + research, data = train)
-AIC(gy_logit3)
-gy_logit3$pseudo.r.squared
+gy_logit3 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + cgpa + research, data = train)
 
-gy_logit4 <- betareg(chance_of_admit ~ serial_no + gre_score + toefl_score + lor + cgpa + research, data = train)
-AIC(gy_logit4)
-gy_logit4$pseudo.r.squared
+gy_logit4 <- betareg(chance_of_admit ~ gre_score + toefl_score + lor + cgpa + research, data = train)
 
-gy_logit5 <- betareg(chance_of_admit ~ serial_no + gre_score + university_rating + lor + cgpa + research, data = train)
-AIC(gy_logit5)
-gy_logit5$pseudo.r.squared
+gy_logit5 <- betareg(chance_of_admit ~ gre_score + university_rating + lor + cgpa + research, data = train)
 
-gy_logit6 <- betareg(chance_of_admit ~ serial_no + toefl_score + university_rating + lor + cgpa + research, data = train)
-AIC(gy_logit6)
-gy_logit6$pseudo.r.squared
+gy_logit6 <- betareg(chance_of_admit ~ toefl_score + university_rating + lor + cgpa + research, data = train)
 
 gy_logit7 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
-AIC(gy_logit7)
-gy_logit7$pseudo.r.squared
-```
+
+# Creating a data frame with AIC and pseudo R-squared values for each model
+model_comparison <- data.frame(
+  Model = c("gy_logit", "gy_logit1", "gy_logit2", "gy_logit3", "gy_logit4", "gy_logit5", "gy_logit6", "gy_logit7"),
+  AIC = c(AIC(gy_logit), AIC(gy_logit1), AIC(gy_logit2), AIC(gy_logit3), AIC(gy_logit4), AIC(gy_logit5), AIC(gy_logit6), AIC(gy_logit7)),
+  Pseudo_R_Squared = c(gy_logit$pseudo.r.squared, gy_logit1$pseudo.r.squared, gy_logit2$pseudo.r.squared, gy_logit3$pseudo.r.squared, gy_logit4$pseudo.r.squared, gy_logit5$pseudo.r.squared, gy_logit6$pseudo.r.squared, gy_logit7$pseudo.r.squared)
+)
 
 
-```{r}
-predictions <- predict(gy_logit,test[-9],type = "response")
-df<- data.frame(predictions,y_test)
-ggplot(df, aes(x=chance_of_admit, y = predictions )) +
-  geom_point(color = "red") +
-  geom_abline(intercept=0, slope=1, color = "yellow", lwd = 1) +
-  labs(y='Predicted Values', x ='Actual Values', title='                                  Predicted vs. Actual Values') +
-  theme_bw()
-```
-```{r}
-predictions <- predict(gy_logit,test[-9],type = "response")
-df<- data.frame(predictions,y_test)
-ggplot(df, aes(x=1:nrow(df))) + 
-  geom_line(aes(y = predictions), color = "darkred") + 
-  geom_line(aes(y = test$chance_of_admit), color="steelblue")+
-  labs( y = " ", x = " Number of rows ",title='                       Predicted values - red vs. Actual Values - blue') +
-  theme_bw()
+print(model_comparison)
 ```
 
+### Diagnostic Measures
+
+Upon completion of analysis of the optimal model, it is desired to
+perform diagnostic analyses to inspect the goodness-of-fit of the chosen
+model. This is done by assessing a measure that determines the
+proportion of variance in the dependent variable that can be explained
+by the independent variable and plotting graphs depicting the residuals
+of the chosen model. The measure that best explains this relationship is
+the $R^2$ value. The $R^2$ is a statistical measure that indicates the
+percentage of the variance in the dependent variables that is explained
+by the independent variables collectively.The $R^2$ formula is explained
+below. $$
+R^2 = 1 - \dfrac{\sum(y_{i} -\hat{y}_i)^2}{\sum(y_{i} -\bar{y})^2}
+$$ where $y_{i}$ represents the observed value, $\hat{y}_i$ is predicted
+values and $\bar{y}$ is the mean of the predicted values.
+
+The values of $R^2$ are between the interval of (0,1) and the higher the
+$R^2$ value, the better the independent variables explain the proportion
+of variance in the dependent variable.Our analysis indicate that
+gy_logit4 and gy_logit7 have the highest $R^2$ with a respective value
+of (0.825 and 0.826). Both of these models are deemed the best models
+but due to our desire for simplification gy_logit4 is chosen given that
+it contains 4 variables vs gy_logit7 which contains 7 variables.
+
+To further analyze the chosen model, we will perform visual diagnostics
+of the residuals. Let's start by defining what are residuals. The
+residuals are the difference between observed values and predicted
+values.The plot below contains our predicted values,chance of admit,
+which is represented by each individual data point. The prediction
+observations made by the model is on the x-axis and the accuracy of the
+prediction is on the y-axis. The distance from the dotted line,0,
+represents how bad the prediction was for that value. Examining the
+plot, we can observe that the residual bounce around the x-axis in
+somewhat a random manner - they do form figures. A particular residual
+does not significantly stand out from the others and the residuals band
+around the 0 mean error line.These are all indicators of a good model.
+
 ```{r}
-predictions <- predict(gy_logit4,test[-9],type = "response")
-df<- data.frame(predictions,y_test)
-ggplot(df, aes(x=chance_of_admit, y = predictions )) +
-  geom_point(color = "blue") +
-  geom_abline(intercept=0, slope=1, color = "green", lwd = 1) +
-  labs(y='Predicted Values', x ='Actual Values', title='                                  Predicted vs. Actual Values') +
-  theme_bw()
+plot(gy_logit,which = 1, main = "Standardized Residuals  - Model gy_logit 4", sub.caption = "")
 ```
 
-
-```{r}
-plot(gy_logit3,main = "Model 3")
-```
-```{r}
-plot(fitted(gy_logit3),
-     residuals(gy_logit3))
-```
+Residual plots are important because it allows us to evaluate the
+prediction errors to understand whether the chosen model will provide
+you with an acceptable level of accuracy.
 
 ### Conclusion
 
-#### References
+In concluding our study, the application of beta regression models has
+provided valuable insights into predicting student admission
+probabilities. The analysis highlights the significance of various
+factors, such as GRE scores, TOEFL scores, CGPA, university ratings,
+letters of recommendation, and research experience. Practically
+speaking, GRE and TOEFL scores are critical as they are standard
+measures of a student's academic readiness and language proficiency,
+which are crucial for success in higher education settings. CGPA
+reflects consistent academic performance, while university ratings may
+correlate with the perceived quality and competitiveness of applicants.
+Letters of recommendation and research experience offer a qualitative
+assessment of a student's capabilities and potential contributions to
+academic discourse.
+
+The models that combined these predictors with the lowest AIC values and
+the highest pseudo R-squared scores were deemed most effective. They
+balance predictive accuracy with model simplicity, avoiding the pitfalls
+of overfitting associated with more complex models. This balance is
+vital for practical application, ensuring that the model remains
+generalizable and relevant to various educational contexts.
+
+Looking forward, there are several avenues for further research and
+development. One potential area is the exploration of additional
+variables that could impact admission chances, such as extracurricular
+activities, personal statements, or socio-economic background. Another
+aspect worth investigating is the application of these models in
+different educational contexts and geographical locations to assess
+their universality and adaptability.
+
+Additionally, further refinement of the models could involve exploring
+alternative statistical techniques or more complex machine learning
+algorithms that might capture nonlinear relationships and interactions
+more effectively. It would also be beneficial to consider the ethical
+implications of using such predictive models in admission processes,
+ensuring fairness and diversity in student selection.
+
+In summary, this study not only contributes to the academic
+understanding of factors influencing university admissions but also
+offers practical implications for educational institutions and
+policy-making. By leveraging statistical modeling, universities can gain
+a more nuanced understanding of the admission process, aiding in the
+development of more informed and equitable admission policies.
+
+## References
 
 Abonazel, Mohamed R., Issam Dawoud, Fuad A. Awwad, and Adewale F.
 Lukman. 2022. "Dawoud--Kibria Estimator for Beta Regression Model:
