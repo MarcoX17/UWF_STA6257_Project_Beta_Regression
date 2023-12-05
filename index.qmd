@@ -227,105 +227,40 @@ Data: [**University Admission
 Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-in-the-university/data)
 
 ### Attribute Information
++-------------------+-----------------+-----------------------+------------------------------------+
+| Variable          | Parameter       | Range                 | Description                        |
++-------------------+-----------------+-----------------------+------------------------------------+
+| GRE Scores        | gre_score       | 290 - 340 (340 scale) |Quantifies a candidate's performance| 
+|                   |                 |                       |on the Graduate Record Examination  | 
+|                   |                 |                       |with a maximum score of 340.        |
++-------------------+-----------------+-----------------------+------------------------------------+
+| TOEFL Scores      | toefl_score     |92 - 120  ( 120 scale) |Measure English Language Proficiency| 
++-------------------+-----------------+-----------------------+------------------------------------+
+| University Rating |university_rating|1 to 5 with 5 being.   |Rates universities on a of 1 to 5,  |
+|                   |                 |highest rating.        |indicating their overall quality and|
+|                   |                 |                       |reputation                          |
++-------------------+-----------------+-----------------------+------------------------------------+
+|State of Purpose   |   sop           |1 to 5 with 5 being    |Evaluates the strength and quality  |
+|                   |                 |highest rating         |of a candidate's SOP on a scale of  |         
+|                   |                 |                       |1 to 5.                             |
++-------------------+-----------------+-----------------------+------------------------------------+
+|Letter of Recomm   |   lor           |1 to 5 with 5 being    |Evaluates the strength and quality  |
+|endation(LOR).     |                 |highest rating         |of a candidate's LOR on a scale of  |
+|Strength.          |                 |                       |1 to 5.                             |
++-------------------+-----------------+-----------------------+------------------------------------+
+|Undergraduate G.P.A|   cgpa          | 6.8 to 9.92 (10 scale)|Reflects a student's academic       |
+|                   |                 |                       |performance in their undergraduate  |
+|                   |                 |                       |schooling which is scored on a      |
+|                   |                 |                       |10.0 point scale                    |
++-------------------+-----------------+-----------------------+------------------------------------+
+|Research Experience|  research       | 0 or 1                |Indicates whether a candidate has   |
+|                   |                 |                       |research experience (1) or not(0)   |
++-------------------+-----------------+-----------------------+------------------------------------+
+|Chance of admit    |chance_of_admit  | 0.34 to 0.97          |Represents the likelihood of a      |
+|                   |                 | scale (0 to 1)        |student being admitted,expressed as |
+|                   |                 |                       |a decimal between 0 and 1           |
++-------------------+-----------------+-----------------------+------------------------------------+
 
-+--------------+--------------+--------------+--------------+
-| V a r i a    | P a r a m e  | R a nge      | D e s c r i  |
-| ble          | ter          |              | p t ion      |
-+==============+==============+:=============+==============+
-| GRE S c o    | g r e \_ s c | 2 9 0 - 340  | Q u a n t i  |
-| res          | ore          |              | f ies a c a  |
-|              |              | ( 340 s c a  | n d i d a t  |
-|              |              | le)          | e's p e r f  |
-|              |              |              | o r m a nce  |
-|              |              |              | on the G r a |
-|              |              |              | d u ate R e  |
-|              |              |              | c ord E x a  |
-|              |              |              | m i n a t i  |
-|              |              |              | on, w ith a  |
-|              |              |              | m a x i mum  |
-|              |              |              | s c ore of   |
-|              |              |              | 340          |
-+--------------+--------------+--------------+--------------+
-| T O EFL S c  | t o e f l \_ | 9 2 - 120    | M e a s u    |
-| o res        | s c ore      |              | res E n g l  |
-|              |              | ( 120 s c a  | ish l a n g  |
-|              |              | le)          | u age p r o  |
-|              |              |              | f i c i e n  |
-|              |              |              | cy, s c o    |
-|              |              |              | red out of a |
-|              |              |              | t o tal of   |
-|              |              |              | 120 p o i    |
-|              |              |              | nts          |
-+--------------+--------------+--------------+--------------+
-| U n i v e r  | u n i ver s  | 1 to 5 w ith | R a tes u n  |
-| s ity R a t  | i t y \_ r a | 5 b e ing    | i v e r s i  |
-| ing          | t ing        | the h i g h  | t ies on a s |
-|              |              | est r a t    | c ale f rom  |
-|              |              | ing          | 1 to 5, i n  |
-|              |              |              | d i c a t    |
-|              |              |              | ing t h eir  |
-|              |              |              | o v e r all  |
-|              |              |              | q u a l ity  |
-|              |              |              | and r e p u  |
-|              |              |              | t a t i on.  |
-+--------------+--------------+--------------+--------------+
-| S t a t e m  | sop          | 1 to 5 w ith | E v a l u a  |
-| ent of P u r |              | 5 b e ing    | tes the s t  |
-| p ose ( S    |              | the h i g h  | r e n gth    |
-| OP) S t r e  |              | est r a t    | and q u a l  |
-| n gth        |              | ing          | ity of a c a |
-|              |              |              | n d i d a t  |
-|              |              |              | e's SOP on a |
-|              |              |              | s c ale of 1 |
-|              |              |              | to 5         |
-+--------------+--------------+--------------+--------------+
-| L e t ter of | lor          | 1 to 5 w ith | E v a l u a  |
-| R e c o m m  |              | 5 b e ing    | tes the s t  |
-| e n d a t    |              | the h i g h  | r e n gth    |
-| ion ( L OR)  |              | est r a t    | and q u a l  |
-| S t r e n    |              | ing          | ity of a c a |
-| gth          |              |              | n d i d a t  |
-|              |              |              | e's SOP and  |
-|              |              |              | LOR on a s c |
-|              |              |              | ale of 1 to  |
-|              |              |              | 5            |
-+--------------+--------------+--------------+--------------+
-| U n d e r g  | c gpa        | 6 . 8 - 9    | R e f l e    |
-| r a d u ate  |              | .92          | cts a s t u  |
-| GPA          |              |              | d e n t's a  |
-|              |              | ( 1 0.0 s c  | c a d e mic  |
-|              |              | a le)        | p e r f o r  |
-|              |              |              | m a nce in t |
-|              |              |              | h eir u n d  |
-|              |              |              | e r g r a d  |
-|              |              |              | u ate s t u  |
-|              |              |              | d i es, s c  |
-|              |              |              | o red on a 1 |
-|              |              |              | 0 - p o int  |
-|              |              |              | s c ale      |
-+--------------+--------------+--------------+--------------+
-| R e s e a    | r e s e a    | 0 or 1       | I n d i c a  |
-| rch E x p e  | rch          |              | tes w h e t  |
-| r i e nce    |              |              | her a c a n  |
-|              |              |              | d i d ate    |
-|              |              |              | has r e s e  |
-|              |              |              | a rch e x p  |
-|              |              |              | e r i e nce  |
-|              |              |              | (1) or not ( |
-|              |              |              | 0).          |
-+--------------+--------------+--------------+--------------+
-| C h a nce of | c han c e \_ | 0 . 3 4 - 0  | R e p r e s  |
-| A d mit      | o f \_ a d   | .97          | e nts the l  |
-|              | mit          |              | i k e l i h  |
-|              |              | (0 to 1 s c  | ood of a s t |
-|              |              | a le)        | u d ent b e  |
-|              |              |              | ing a d m i  |
-|              |              |              | t t ed, e x  |
-|              |              |              | p r e s sed  |
-|              |              |              | as a d e c i |
-|              |              |              | mal b e t w  |
-|              |              |              | een 0 and 1  |
-+--------------+--------------+--------------+--------------+
 
 ### Libraries
 
@@ -363,6 +298,69 @@ admission <- admission %>%
 
 head(admission,5)
 ```
+# Model Assumptions
+
++-------------------------+-----------------------------+-----------------------+
+| Assumptions             | Descriptions                | Assumptions Met       | 
++-------------------------+-----------------------------+-----------------------+
+| Beta distribution       | The dependent variable      |                       |
+| of dependent            | is continuous and           |       Met             |                      
+| variable                | bounded between 0 and 1     |                       |                       
++-------------------------+-----------------------------+-----------------------+
+| Independent Observations| Oberservation independent   |                       |
+|                         | of each other               |       Assumed         |
++-------------------------+-----------------------------+-----------------------+
+| Homoscedasticity of     | The variance of error terms |                       |
+| Error Terms             | are constant across levels  |                       | 
+|                         | of independent variables    |       Assumed         |  
++-------------------------+-----------------------------+-----------------------+
+| Linearity of Predictors |There are linear relationship|                       |
+|                         |between logit of the         |       Met             |         
+|                         |expected value and predictors|                       |                       
++-------------------------+-----------------------------+-----------------------+
+| No Perfect Multi        | Predictors are not perfectly|                       |
+| collinearity            | collinear                   |       Met             |
++-------------------------+-----------------------------+-----------------------+
+| No Outliers             | The data does not have      |                       |
+|                         |. influential outliers.      |       Met             |    
++-------------------------+-----------------------------+-----------------------+
+
+```{r}
+hist(admission$chance_of_admit, breaks=20, main="Histogram of Chance of Admit", xlab="Chance of Admit")
+```
+#### The dependent variable is continuous and bounded between 0 and 1.
+
+
+```{r}
+pairs(~ chance_of_admit + gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = admission)
+```
+
+#### There are linear relationship between logit of the expected value and predictors.
+
+```{r}
+library(car)
+vif(lm(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = admission))
+```
+#### VIF scores are not greater than the chosen threshold of 10
+```{r}
+boxplot(admission$chance_of_admit, main = "Boxplot of Chance of Admit", ylab = "Chance of Admit")
+```
+
+```{r}
+par(mfrow = c(2, 4))  # Adjust layout to display multiple plots
+boxplot(admission$gre_score, main = "GRE Score")
+boxplot(admission$toefl_score, main = "TOEFL Score")
+boxplot(admission$university_rating, main = "University Rating")
+boxplot(admission$sop, main = "SOP")
+boxplot(admission$lor, main = "LOR")
+boxplot(admission$cgpa, main = "CGPA")
+boxplot(admission$research, main = "Research")
+```
+#### The data does not have influential outliers
+```{r}
+```
+
+## Further EDA
 
 ### Chance of Admit and TOEFL
 
@@ -847,34 +845,46 @@ development of more informed and equitable admission policies.
 Abonazel, Mohamed R., Issam Dawoud, Fuad A. Awwad, and Adewale F.
 Lukman. 2022. "Dawoud--Kibria Estimator for Beta Regression Model:
 Simulation and Application." Frontiers in Applied Mathematics and
-Statistics 8. https://doi.org/10.3389/fams.2022.775068. Couri, Lucas,
-Raydonal Ospina, Geiza da Silva, Víctor Leiva, and Jorge
+Statistics 8. https://doi.org/10.3389/fams.2022.775068.
+
+Couri, Lucas,Raydonal Ospina, Geiza da Silva, Víctor Leiva, and Jorge
 Figueroa-Zúñiga. 2022. "A Study on Computational Algorithms in the
 Estimation of Parameters for a Class of Beta Regression Models."
 Mathematics 10 (3): 299. https://doi.org/10.3390/math10030299.
-Cribari-Neto, Francisco, and Achim Zeileis. 2010. "Beta Regression in
-r." Journal of Statistical Software 34 (2): 1--24.
-https://doi.org/10.18637/jss.v034.i02. Douma, Jacob C., and James T.
-Weedon. 2019. "Analysing Continuous Proportions in Ecology and
-Evolution: A Practical Introduction to Beta and Dirichlet Regression."
-Methods in Ecology and Evolution 10 (9): 1412--30.
-https://doi.org/https://doi.org/10.1111/2041-210X.13234. Ferrari,
-Silvia, and Francisco Cribari-Neto. 2004. "Beta Regression for Modelling
-Rates and Proportions." Journal of Applied Statistics 31 (7): 799--815.
+
+Cribari-Neto, Francisco, and Achim Zeileis. 2010. "Beta Regression inr."
+Journal of Statistical Software 34 (2): 1--24.
+https://doi.org/10.18637/jss.v034.i02.
+
+Douma, Jacob C., and James T.Weedon. 2019. "Analysing Continuous
+Proportions in Ecology and Evolution: A Practical Introduction to Beta
+and Dirichlet Regression." Methods in Ecology and Evolution 10 (9):
+1412--30. https://doi.org/https://doi.org/10.1111/2041-210X.13234.
+
+Ferrari,Silvia, and Francisco Cribari-Neto. 2004. "Beta Regression for
+Modelling Rates and Proportions." Journal of Applied Statistics 31 (7):
+799--815.
 https://EconPapers.repec.org/RePEc:taf:japsta:v:31:y:2004:i:7:p:799-815.
+
 Guolo, Annamaria, and Cristiano Varin. 2014. "Beta regression for time
 series analysis of bounded data, with application to Canada Google® Flu
 Trends." The Annals of Applied Statistics 8 (1): 74--88.
-https://doi.org/10.1214/13-AOAS684. Ospina, Raydonal, and Silvia L. P.
-Ferrari. 2012. "A General Class of Zero-or-One Inflated Beta Regression
-Models." Computational Statistics & Data Analysis 56 (6): 1609--23.
-https://doi.org/https://doi.org/10.1016/j.csda.2011.10.005. Patrícia L.
-Espinheira, Silvia L. P. Ferrari, and Francisco Cribari-Neto. 2008. "On
-Beta Regression Residuals." Journal of Applied Statistics 35 (4):
-407--19. https://doi.org/10.1080/02664760701834931. Schmid, Florian AND
-Maloney, Matthias AND Wickler. 2013. "Boosted Beta Regression." PLOS ONE
-8 (4): 1--15. https://doi.org/10.1371/journal.pone.0061623. Simas,
-Alexandre B., Wagner Barreto-Souza, and Andréa V. Rocha. 2010. "Improved
-estimators for a general class of beta regression models." Computational
-Statistics & Data Analysis 54 (2): 348--66.
+https://doi.org/10.1214/13-AOAS684.
+
+Ospina, Raydonal, and Silvia L. P.Ferrari. 2012. "A General Class of
+Zero-or-One Inflated Beta Regression Models." Computational Statistics &
+Data Analysis 56 (6): 1609--23.
+https://doi.org/https://doi.org/10.1016/j.csda.2011.10.005.
+
+Patrícia L.Espinheira, Silvia L. P. Ferrari, and Francisco Cribari-Neto.
+2008. "On Beta Regression Residuals." Journal of Applied Statistics 35
+(4): 407--19. https://doi.org/10.1080/02664760701834931.
+
+Schmid, Florian AND Maloney, Matthias AND Wickler. 2013. "Boosted Beta
+Regression." PLOS ONE 8 (4): 1--15.
+https://doi.org/10.1371/journal.pone.0061623.
+
+Simas,Alexandre B., Wagner Barreto-Souza, and Andréa V. Rocha. 2010.
+"Improved estimators for a general class of beta regression models."
+Computational Statistics & Data Analysis 54 (2): 348--66.
 https://ideas.repec.org/a/eee/csdana/v54y2010i2p348-366.html.
